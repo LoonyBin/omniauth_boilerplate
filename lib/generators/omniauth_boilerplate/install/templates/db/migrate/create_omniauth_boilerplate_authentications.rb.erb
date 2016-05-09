@@ -1,0 +1,16 @@
+class CreateOmniauthBoilerplateAuthentications < ActiveRecord::Migration<%= migration_version %>
+  def change
+    enable_extension 'hstore'
+
+    create_table :omniauth_boilerplate_authentications do |t|
+      t.string :uid
+      t.string :provider
+      t.references :user, index: true, foreign_key: true
+      t.hstore :meta
+
+      t.timestamps null: false
+    end
+
+    add_index :omniauth_boilerplate_authentications, [:provider, :uid]
+  end
+end

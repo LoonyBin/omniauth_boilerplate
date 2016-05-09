@@ -1,0 +1,9 @@
+# Create an empty table for users if it doesn't exist.
+# You can add more columns as required
+class CreateUsers < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :users do |t|
+      t.timestamps null: false
+    end
+  end
+end

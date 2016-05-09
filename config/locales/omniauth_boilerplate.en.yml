@@ -1,0 +1,12 @@
+en:
+  authentications:
+    signed_in: "Successfully signed in."
+    destroy: "Successfully unlinked the authentication."
+    already_linked: "This authentication is already linked with your account."
+    merge_success: "Your other user account has been mergedin successfully."
+    merge_failure: "There was an error while trying to merge your accounts. Please contact support."
+    merge_unsupported: "This authentication is already linked with a different account. Please contact support if you think this is a mistake."
+    link_success: "New authentication has been linked with your account."
+    link_failure: "There was an error while trying to link the new authentication with your account. Please contact support."
+    signup_success: "You have successfully signed up."
+    signup_failure: "There was an error while trying to create a new account for you. Please contact support."

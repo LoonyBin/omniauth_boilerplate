@@ -1,0 +1,27 @@
+<h1>Listing Authentications</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Uid</th>
+      <th>Provider</th>
+      <th>Meta</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @authentications.each do |authentication| %>
+      <tr>
+        <td><%= authentication.uid %></td>
+        <td><%= authentication.provider %></td>
+        <td><%= authentication.meta %></td>
+        <td><%= link_to 'Destroy', authentication, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Authentication', new_authentication_path %>
