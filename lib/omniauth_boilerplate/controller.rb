@@ -21,5 +21,10 @@ module OmniauthBoilerplate
       @current_user = user
       session[:user_id] = user.nil? ? nil : user.id
     end
+
+    def sign_out
+      @current_user = nil
+      session[:user_id] = nil
+    end
   end
 end

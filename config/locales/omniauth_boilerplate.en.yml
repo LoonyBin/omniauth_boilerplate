@@ -1,6 +1,7 @@
 en:
   authentications:
     signed_in: "Successfully signed in."
+    signed_out: "Successfully signed out."
     destroy: "Successfully unlinked the authentication."
     already_linked: "This authentication is already linked with your account."
     merge_success: "Your other user account has been mergedin successfully."

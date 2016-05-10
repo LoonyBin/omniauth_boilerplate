@@ -14,17 +14,17 @@ module OmniauthBoilerplate
     end
 
     def update_with_omniauth(auth)
-      update(meta: provider_module.new(omniauth: auth, authentication: self).meta)
+      update(meta: provider_module(auth).meta)
     end
 
     private
 
-    def provider_module
+    def provider_module(omniauth = nil)
       @provider_module ||= begin
                              Object.const_get("#{provider.camelcase}AuthHandler")
                            rescue NameError
                              DefaultAuthHandler
-                           end
+                           end.new(omniauth: omniauth, authentication: self)
     end
   end
 end
