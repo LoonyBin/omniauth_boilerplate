@@ -11,9 +11,17 @@ module OmniauthBoilerplate
     # @return [String]
     attr_accessor :user_model_name
 
+    # Limit the user to have at max only one authentication per provider
+    # You can have any custom logic here. Ex: `Proc.new {|a| a.provider.to_sym == :identity }`
+    # Defaults to `true`
+    # @return [Proc]
+    attr_accessor :limit_to_one_per_provider
+
+
     def initialize
       @redirect_url = '/'
       @user_model_name = '::User'
+      @limit_to_one_per_provider = Proc.new { true }
     end
 
     def user_model

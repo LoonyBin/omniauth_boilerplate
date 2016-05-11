@@ -3,7 +3,7 @@ require_dependency 'omniauth_boilerplate/base_controller'
 module OmniauthBoilerplate
   # AuthenticationsController takes care of signin/signup/linking of omniauth authentications
   class AuthenticationsController < BaseController
-    before_action :set_authentication, only: [:destroy]
+    skip_before_action :verify_authenticity_token, only: :create
 
     # GET /authentications
     def index

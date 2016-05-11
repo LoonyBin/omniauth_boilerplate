@@ -5,6 +5,14 @@ module OmniauthBoilerplate
 
     validates_associated :user
 
+    validates :uid, presence: true
+    validates :provider,
+              presence: true,
+              uniqueness: {
+                scope: :user_id,
+                if: OmniauthBoilerplate.configuration.limit_to_one_per_provider
+              }
+
     def self.find_with_omniauth(auth)
       find_by(uid: auth['uid'], provider: auth['provider'])
     end
