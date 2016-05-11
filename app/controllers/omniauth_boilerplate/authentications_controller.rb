@@ -128,6 +128,7 @@ module OmniauthBoilerplate
                              end
 
       if @authentication.save
+        sign_in @authentication.user
         provider_module.after_sign_up
         redirect_to OmniauthBoilerplate.configuration.redirect_url, notice: t('authentications.signup_success')
       else
