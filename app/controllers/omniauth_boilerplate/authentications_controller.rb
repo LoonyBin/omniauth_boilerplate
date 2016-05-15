@@ -27,7 +27,7 @@ module OmniauthBoilerplate
         # The authentication we found had a user associated with it so let's
         # just log them in here
         sign_in @authentication.user
-        provider_module.after_sign_in
+        auth_handler.after_sign_in
         redirect_to OmniauthBoilerplate.configuration.redirect_url, notice: t('authentications.signed_in')
       else
         # No user associated with the authentication so we need to create a new one
@@ -38,7 +38,7 @@ module OmniauthBoilerplate
     # DELETE /authentications/1
     def destroy
       current_user.authentications.destroy(params[:id])
-      provider_module.after_destroy
+      auth_handler.after_destroy
       redirect_to authentications_url, notice: t('authentications.destroy')
     end
 
@@ -60,11 +60,11 @@ module OmniauthBoilerplate
       if @authentication.nil?
         # If no authentication was found, create a brand new one here
         @authentication = Authentication.create_with_omniauth(@auth)
-        provider_module.after_create
+        auth_handler.after_create
       end
 
       @authentication.update_with_omniauth(@auth)
-      provider_module.after_update
+      auth_handler.after_update
     end
 
     def assign_authentication_to_current_user
@@ -119,31 +119,25 @@ module OmniauthBoilerplate
     def signup
       raise AuthenticationNotFound unless @authentication
 
-      @authentication.user = if OmniauthBoilerplate.configuration.user_model.respond_to? :create_with_omniauth
-                               raise AuthNotFound unless @auth
-
-                               OmniauthBoilerplate.configuration.user_model.create_with_omniauth(@auth)
-                             else
-                               OmniauthBoilerplate.configuration.user_model.create
-                             end
+      @authentication.user = OmniauthBoilerplate.configuration.user_model.create auth_handler.user_attr
 
       if @authentication.save
         sign_in @authentication.user
-        provider_module.after_sign_up
+        auth_handler.after_sign_up
         redirect_to OmniauthBoilerplate.configuration.redirect_url, notice: t('authentications.signup_success')
       else
         redirect_to OmniauthBoilerplate.configuration.redirect_url, alert: t('authentications.signup_failure')
       end
     end
 
-    def provider_module
+    def auth_handler
       raise AuthenticationNotFound unless @authentication
 
-      @provider_module ||= begin
-                             Object.const_get("#{@authentication.provider.camelcase}AuthHandler")
-                           rescue NameError
-                             DefaultAuthHandler
-                           end.new(omniauth: @auth, authentication: @authentication)
+      @auth_handler ||= begin
+                          Object.const_get("#{@authentication.provider.camelcase}AuthHandler")
+                        rescue NameError
+                          DefaultAuthHandler
+                        end.new(omniauth: @auth, authentication: @authentication)
     end
   end
 end

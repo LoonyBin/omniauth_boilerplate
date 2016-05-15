@@ -10,6 +10,10 @@ module OmniauthBoilerplate
       @omniauth
     end
 
+    def user_attr
+      Hash.new
+    end
+
     def self.find_by(authentication_id)
       new(authentication: Authentication.find(authentication_id))
     end
