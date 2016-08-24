@@ -137,7 +137,7 @@ module OmniauthBoilerplate
                           Object.const_get("#{@authentication.provider.camelcase}AuthHandler")
                         rescue NameError
                           DefaultAuthHandler
-                        end.new(omniauth: @auth, authentication: @authentication)
+                        end.new(omniauth: @auth, authentication: @authentication, request: request)
     end
   end
 end

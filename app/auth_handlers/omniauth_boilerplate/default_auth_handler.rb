@@ -2,8 +2,9 @@ module OmniauthBoilerplate
   # Providers provide functionality per omniauth provider
   class DefaultAuthHandler
     def initialize(opts={})
-      @authentication = opts[:authentication]
-      @omniauth = opts[:omniauth]
+      @authentication = opts.delete(:authentication)
+      @omniauth = opts.delete(:omniauth)
+      @opts = opts
     end
 
     def meta
