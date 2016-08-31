@@ -25,7 +25,7 @@ module OmniauthBoilerplate
     end
 
     def user_model
-      @user_model ||= @user_model_name.constantize
+      @user_model_name.constantize
     end
   end
 
